@@ -1,0 +1,31 @@
+name: projectname
+recipe: laravel
+config:
+  php: '7.3'
+  webroot: public
+  xdebug: true
+  via: nginx:1.14
+  database: mariadb:10.3
+  cache: redis:5
+services:
+  pma:
+    type: phpmyadmin:4.7
+    overrides:
+      environment:
+        PMA_USER: projectname
+        PMA_PASSWORD: projectname
+  node:
+    type: node
+  mailhog:
+    type: mailhog:v1.0.0
+    portforward: true
+    hogfrom:
+      - appserver
+tooling:
+  npm:
+    service: node
+proxy:
+  pma:
+    - pma-projectname.lndo.site
+  mailhog:
+    - mailhog-projectname.lndo.site
